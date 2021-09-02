@@ -10,7 +10,7 @@ double u(double x); //Declaration
 //argc is int and stores number of command-line arguments passed by the user including the name of the program.
 
 int main(int argc, char const *argv[]) {
-    int N = 10;
+    int N = 100;
     double s = 0;
     double x = 0;
     double res = 0;
