@@ -10,14 +10,13 @@
 #include <chrono>   
 #include <armadillo> 
 
+#include "eigensolver.h"
 
 //Declaration:
 
 arma::mat create_tridiagonal(int n, double a, double d, double e); 
 arma::vec find_analytical_eigvec(int n, int i);
 arma::vec find_analytical_eigval(int n, double a, double d);
-double max_offdiag_symmetric(const arma::mat& A, int& k, int &l);
-void test_code_max();
 
 const double PI = 3.14159265359;
 
@@ -60,7 +59,20 @@ int main() {
   //Test funtion that checks if max_offdiag_symmetric works propperly:
     test_code_max();
 
-    return 0;
+
+  //Code implementation of Jacobi's eigensolver:
+  arma::vec eigenvalues = arma::vec(n);
+  arma::mat eigenvectors = arma::mat(n,n);
+
+  double eps = 1e-6;
+  int maxiter = n*n;
+  int iterations;
+  bool converged;
+  std::cout << A << std::endl;
+  jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
+
+  std::cout << "From Jacobi \n" << eigenvalues << std::endl;
+  return 0;
 }
 
 
@@ -108,37 +120,3 @@ arma::vec find_analytical_eigval(int n, double a, double d){
   return eig;
 }
 
-double max_offdiag_symmetric(const arma::mat& A, int& k, int &l){
-  double tmp_max = -100000;
-  int max_i, max_j;
-  int n = A.n_cols;
-  for (int i = 0; i < n; i++){
-    for (int j = 0; j < n; j++){
-      if (i != j) {
-        if (A[j,i]>tmp_max){
-          tmp_max = A[i,j];
-          max_i = i;
-          max_j = j;
-        }
-      } 
-    }
-  }
-  k=max_i;
-  l=max_j;
-  return tmp_max;
-}
-
-void test_code_max(){
-  arma::mat A = "1 0 0 0.5; 0 1 -0.7 0; 0 -0.7 1 0; 0.5 0 0 1;";
-
-  double correct_max = 0.5;
-
-  int k;
-  int l;
-  double max_value= max_offdiag_symmetric(A, k, l);
-
-  if (max_value != correct_max){
-    std::cout << "Got wrong max value: " << max_value << ", correct value: " << correct_max << std::endl;
-  }
-
-}
