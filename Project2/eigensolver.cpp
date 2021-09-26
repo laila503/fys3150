@@ -105,13 +105,12 @@ void jacobi_eigensolver(arma::mat& A, double eps, arma::vec& eigenvalues, arma::
     double epsilon = 1.0e-8;
     iterations = 0;
     double max_offdiag = max_offdiag_symmetric( A, k, l);
-    std::cout << max_offdiag << std::endl;
     while ( fabs(max_offdiag) > epsilon && (double) iterations < maxiter ) {
         max_offdiag = max_offdiag_symmetric( A, k, l);
         jacobi_rotate ( A, eigenvectors, k, l);
         iterations++;
     }
-    std::cout << "Number of iterations: " << iterations << "\n";
+    //std::cout << "Number of iterations: " << iterations << "\n";
 
     eigenvalues = A.diag();
     return;
