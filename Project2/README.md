@@ -16,4 +16,4 @@ make
 ```
 
 ## The Report
-The report can be found in 
+The report can be found [here](https://github.com/laila503/fys3150/blob/main/Project2/report/Project2_ComPhys_Andersland.pdf).
